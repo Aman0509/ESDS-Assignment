@@ -1,0 +1,26 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %} Fake Bank - New Account Creation {% endblock title %}
+
+{% block content %}
+    
+    <div class="container features">
+        <p class="h4 text-center">Enter New Account Details</p><br>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <br>
+        <form method="post">
+            <table>
+                {% csrf_token %}
+                {{form.as_table}}
+            </table><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock content %}

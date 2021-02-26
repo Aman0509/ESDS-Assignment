@@ -1,0 +1,54 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %} Fake Bank - For Developers {% endblock title %}
+
+{% block content %}
+
+     <div class="container features">
+        <p class="display-4 text-center">API Overview</p><br>
+        <p class="h5"><u>For getting balance of a specific account</u></p><br> 
+        <p class="h6 text-monospace">/apispage/apibal/&ltstr:pk&gt/</p>
+        <br>
+        <p class="h5"><u>For creating a new customer record</u></p><br> 
+        <p class="h6 text-monospace">/apispage/apicustomercreation/</p>
+        <pre class="h6 text-monospace">
+            {
+                "first_name": "",
+                "last_name": "",
+                "email": "",
+                "phone_no": "",
+                "age": &ltage&gt
+            }
+        </pre>
+        <br>
+        <p class="h5"><u>For creating a new account for an existing customer record</u></p><br> 
+        <p class="h6 text-monospace">apispage/apinewaccountcreation/</p>
+        <pre class="h6 text-monospace">
+            {
+                "account_num": "",
+                "account_type": "Savings/Current/Loan",
+                "balance": 1000.00,
+                "nominee": "",
+                "customer": &ltcust_id&gt
+            }
+        </pre>
+        <br>
+        <p class="h5"><u>For transferring money between accounts</u></p><br> 
+        <p class="h6 text-monospace">apispage/apitransfermoney/</p>
+        <pre class="h6 text-monospace">
+            {
+                "with_acc_num": "",
+                "tran_acc_num": "",
+                "amount": 1000.00
+            }
+        </pre>
+        <br>
+        <p class="h5"><u>For listing out all customer details</u></p><br> 
+        <p class="h6 text-monospace">apiviewofallcustomers/</p>
+        <br>
+        <p class="h5"><u>For listing out all account numbers with other details</u></p><br> 
+        <p class="h6 text-monospace">apiviewofallaccounts/</p>
+        <br>
+    </div>
+
+{% endblock content %}

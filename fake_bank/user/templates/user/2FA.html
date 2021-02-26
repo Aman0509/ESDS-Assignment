@@ -1,0 +1,13 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+    <div class="container factor-auth">
+        <form method="POST">
+            {% csrf_token %}
+            <label id="f2a" class="h4">OTP has been sent to your registered email</lable><br>
+            <input type="text" name='pin' id="f2a" class="form-control"><br>
+            <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock content %}
+{% block footer %}{% endblock footer %}

@@ -1,0 +1,28 @@
+html {
+    scroll-behavior: smooth;
+  }
+
+.navbar-custom{
+    background-color: black;
+}
+
+.features{
+  margin-top: 5%;
+  margin-bottom: 10%;
+  padding: 5em 5em 5em 5em;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+
+}
+
+.factor-auth{
+  margin-top: 5em;
+  border: 2px solid, grey;
+  padding: 5em 5em 5em 5em;
+}
+
+.new-cust-detail{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+

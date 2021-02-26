@@ -1,0 +1,62 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %} Fake Bank - Personal Banking and Netbanking Services {% endblock title %}
+
+{% block content %}
+
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="{% static "home/images/i1.webp" %}" alt="First slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="{% static "home/images/i2.jpg" %}" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="{% static "home/images/i3.jpg" %}" alt="Third slide">
+            </div>
+        </div>
+    </div><br><br>
+
+    <div class="container">
+        <p class="h1">Investment Solutions</p><br>
+        <div class="card-deck">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mutal Funds</h5>
+                    <p class="card-text">
+                        Invest today in varities of our mutual funds and ULIP plans
+                    </p>
+                    <p class="card-text">
+                        <button type="button" class="btn btn-primary btn-sm">Learn more</button>
+                    </p>
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Insurance</h5>
+                    <p class="card-text">
+                        We offer various plans for term and health insurance. Get insured today
+                    </p>
+                    <p class="card-text">
+                        <button type="button" class="btn btn-primary btn-sm">Learn more</button>
+                    </p>
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Pension Scheme</h5>
+                    <p class="card-text">
+                        For secure future choose our pension scheme with minimum lock in period
+                    </p>
+                    <p class="card-text">
+                        <button type="button" class="btn btn-primary btn-sm">Learn more</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> <br><br>
+
+{% endblock content %}

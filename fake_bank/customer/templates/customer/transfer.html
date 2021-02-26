@@ -1,0 +1,43 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %} Fake Bank - Transfer Amount {% endblock title %}
+
+{% block content %}
+    <div class="container features">
+        <p class="h1 text-center"> Transfer Money </p><br>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="inputwithdrawl" class="col-sm-3 col-form-label">Withdrawl Account Number</label>
+                <div class="col-sm-9">
+                    <input type="text" name='with_acc_num' class="form-control" id="inputwithdrawl" placeholder="Account Number (Money to be transfered from)">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputdeposit" class="col-sm-3 col-form-label">Deposit Account Number</label>
+                <div class="col-sm-9">
+                    <input type="text" name='trans_acc_num' class="form-control" id="inputdeposit" placeholder="Account Number (Money to be Received)">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputamount" class="col-sm-3 col-form-label">Transfer Amount Number</label>
+                <div class="col-sm-9">
+                    <input type="text" name='amount' class="form-control" id="inputamount" placeholder="Amount to be transferred">
+                </div>
+            </div><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form><br>
+        {% if message %}
+            <p class="h4">{{ message }}</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}

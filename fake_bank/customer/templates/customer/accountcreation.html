@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %} Fake Bank - Account Creation {% endblock title %}
+
+{% block content %}
+
+    <div class="container features">
+        <p class="h4">Account Opening Process</p><br>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Create Customer Reocrd</h5>
+                    <p class="card-text">For new customers, first create their records before going for opening account</p>
+                    <a href="{% url 'new_cust' %}" class="btn btn-primary">Click Here</a>
+                </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Create New Account</h5>
+                    <p class="card-text">This is for creating a new account for an existing customer record</p>
+                    <a href="{% url 'acc_open' %}" class="btn btn-primary">Click Here</a>
+                </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+{% endblock content %}

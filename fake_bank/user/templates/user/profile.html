@@ -1,0 +1,30 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %} Fake Bank - Employee Profile {% endblock title %}
+
+{% block content %}
+
+    <div class="container features">
+        <div class="row text-center">
+            <div class="col-6">
+                <a href="{% url 'new-acc' %}" class="btn btn-primary btn-block" role="button" aria-pressed="true">Create an account</a>
+            </div>
+            <div class="col-6">
+                <a href="{% url 'transfer' %}" class="btn btn-primary btn-block" role="button" aria-pressed="true">Transfer Amount</a>
+            </div>
+        </div><br><br>
+        <div class="row text-center">
+            <div class="col-6">
+                <a href="{% url 'checkbal' %}" class="btn btn-primary btn-block" role="button" aria-pressed="true">Check Balance</a>
+            </div>
+            <div class="col-6">
+                <a href="{% url 't_history' %}" class="btn btn-primary btn-block" role="button" aria-pressed="true">Transaction History</a>
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
+
+
+
+

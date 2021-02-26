@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %} Fake Bank - Check Balance {% endblock title %}
+
+{% block content %}
+
+    <div class="container features">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="colFormLabelLg" class="col-sm-3 col-form-label col-form-label-lg">Account Number</label>
+                <div class="col-sm-10">
+                    <input type="text" name="acc_num" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Enter Account Number">
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        {% if temp %}
+            <p class="h3">Current Balance is {{temp.balance}}</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}

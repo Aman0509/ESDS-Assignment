@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock title %}</title>
+
+        <!-- Latest compiled and minified CSS -->
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/v4-shims.css">
+        <link rel="stylesheet" href="{% static "home/css/external.css" %}"/>
+        <script defer src="https://use.fontawesome.com/releases/v5.15.2/js/all.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.15.2/js/v4-shims.js"></script>
+    
+    </head>
+    
+    <body>
+        {% url 'login' as login_url %}
+
+        <!-- Navbar Section -->
+        
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+            <a class="navbar-brand" href="{% url 'home' %}">Fake Bank</a>
+            <button 
+                class="navbar-toggler" 
+                type="button" data-toggle="collapse" 
+                data-target="#navbarNav" 
+                aria-controls="navbarNav" 
+                aria-expanded="false" 
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if request.path == login_url %}
+                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">Back</a>
+                        </li>
+                    {% elif user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Logged-in User: {{ user }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'apispage' %}">For Developers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">Employee Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact-us">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact-us">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Employee Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- Override Section -->
+
+        {% block content %}{% endblock content %}
+        
+        <!-- Footer Section -->
+        {% block footer %}
+            <footer class="footer" style="background-color:black" id="contact-us">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-md-6 text-center">        
+                            <div class="py-5">
+                                <h3 class="my-4 text-white">Reach out to us @</span></h3>
+                                <div class="py-2">
+                                    <a href="#"><i class="fab fa-facebook fa-2x text-primary mx-3"></i></a>
+                                    <a href="#"><i class="fab fa-google-plus fa-2x text-danger mx-3"></i></a>
+                                    <a href="#"><i class="fab fa-twitter fa-2x text-info mx-3"></i></a>
+                                    <a href="#"><i class="fab fa-youtube fa-2x text-danger mx-3"></i></a>
+                                </div>
+                                <p class="text-light py-4 mb-4">&copy;2021 Fake Bank Pvt Ltd</p>
+                            </div>
+                        </div>   
+                        <div class="col-md-6 text-white text-center">
+                            <div class="py-5 my-4">
+                                <div>
+                                    <p class="text-white"> <i class="fa fa-map-marker mx-2 "></i>Headquarter Location</p>
+                                    <p class="text-white">
+                                        XYZ Tech Park,
+                                        Bldg. No. 7, Block-5D, 
+                                        Bengaluru - 208022
+                                    </p>
+                                </div>
+                                <div> 
+                                    <p><i class="fa fa-phone mx-2 "></i> +91-8080808080</p>
+                                </div>
+                                <div>
+                                    <p><i class="fa fa-envelope mx-2"></i><a href="mailto:support@fakebank.com" class="text-light">support@fakebank.com</a></p>
+                                </div>  
+                            </div>  
+                        </div>
+                    </div>  
+                </div>
+            </footer>
+        {% endblock footer %}
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+    </body>
+</html>
