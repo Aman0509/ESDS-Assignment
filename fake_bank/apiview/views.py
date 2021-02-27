@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from customer.models import customers, customeraccounts
+from customer.models import customers, customeraccounts, accounttransaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .serializers import customersSerializers, customeraccountsSerializers
+from .serializers import customersSerializers, customeraccountsSerializers, accounttransactionSerializer
+import datetime as dt
 
 # Create your views here.
 @login_required
@@ -58,10 +59,16 @@ def createcustomerrecord(request):
 @login_required
 @api_view(['POST'])
 def createnewaccount(request):
+    date_ = dt.datetime.now().strftime("%Y-%m-%d %H:%m:%S")
     if request.method == 'POST':
         serializer = customeraccountsSerializers(data=request.data)
+        amount = request.data['balance']
+        acc_num = request.data['account_num']
         if serializer.is_valid():
             serializer.save()
+            acc_num_created = customeraccounts.objects.get(account_num=acc_num)
+            first_trans_entry = accounttransaction(date=date_, pri_acc_num=acc_num_created, sec_acc_num='cash', amount_credit=amount, curr_bal=amount)
+            first_trans_entry.save()
             return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -71,12 +78,13 @@ def createnewaccount(request):
 def transfermoney(request):
 
     if request.method == 'POST':
+        date_ = dt.datetime.now().strftime("%Y-%m-%d %H:%m:%S")
         temp_list = []
-        with_acc_num = request.data['with_acc_num']
+        withs_acc_num = request.data['with_acc_num']
         trans_acc_num = request.data['tran_acc_num']
         amount = float(request.data['amount'])
         try:
-            with_acc_num = customeraccounts.objects.get(account_num=with_acc_num)
+            with_acc_num = customeraccounts.objects.get(account_num=withs_acc_num)
         except customeraccounts.DoesNotExist:
             temp_list.append(with_acc_num) 
         try:
@@ -106,6 +114,10 @@ def transfermoney(request):
                 tran_acc_num.balance += amount
                 with_acc_num.save()
                 tran_acc_num.save()
+                with_acc_txn = accounttransaction(date=date_, pri_acc_num=with_acc_num, sec_acc_num=trans_acc_num, amount_debit=amount, curr_bal=with_acc_num.balance)
+                depo_acc_txn = accounttransaction(date=date_, pri_acc_num=tran_acc_num, sec_acc_num=withs_acc_num, amount_credit=amount, curr_bal=tran_acc_num.balance)
+                with_acc_txn.save()
+                depo_acc_txn.save()
                 return Response(
                     {'success': 'Transaction Successful'},
                     status=status.HTTP_200_OK
@@ -116,4 +128,19 @@ def transfermoney(request):
             else:
                 return Response({"error": f"Account Number {temp_list[0]} and {temp_list[1]} do not exist in our database"},status=status.HTTP_404_NOT_FOUND)
 
+
+
+@login_required
+@api_view(['GET'])
+def transactionhistory(request, pk):
+    
+    try:
+        acc = customeraccounts.objects.get(account_num=pk)
+        tran_history = accounttransaction.objects.filter(pri_acc_num=pk)
+    except customeraccounts.DoesNotExist:
+        return Response({"error": f"Account Number {pk} does not exist in our database"},status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        serializer = accounttransactionSerializer(tran_history, many=True)
+        return Response(serializer.data)
 

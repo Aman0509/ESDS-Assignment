@@ -5,7 +5,50 @@
 {% block content %}
 
     <div class="container features">
-    
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="colFormLabelLg" class="col-sm-3 col-form-label col-form-label-lg">Account Number</label>
+                <div class="col-sm-10">
+                    <input type="text" name="acc_num" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Enter Account Number">
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        {% if trans_table %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Primary Account Number</th>
+                        <th scope="col">Secondary Account Number</th>
+                        <th scope="col">Amount Debited</th>
+                        <th scope="col">Amount Credited</th>
+                        <th scope="col">Balance</th>
+                    </tr>
+                </thead>
+                {% for trans in trans_table %}
+                    <tbody>
+                        <tr>
+                            <th>{{ trans.date }}</th>
+                            <th>{{ trans.pri_acc_num }}</th>
+                            <th>{{ trans.sec_acc_num }}</th>
+                            <th>{{ trans.amount_debit }}</th>
+                            <th>{{ trans.amount_credit }}</th>
+                            <th>{{ trans.curr_bal }}</th>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        {% endif %}
     </div>
 
 

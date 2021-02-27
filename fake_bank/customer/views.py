@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .forms import customersForm, customeraccountsForm
-from .models import customers, customeraccounts
+from .models import customers, customeraccounts, accounttransaction
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+import datetime as dt
 
 # UI Views
 
@@ -18,10 +19,10 @@ def transfer(request):
     
     if request.method == 'POST':
         temp_list = []
+        date_ = dt.datetime.now().strftime("%Y-%m-%d %H:%m:%S")
         with_acc_num = request.POST['with_acc_num']
         trans_acc_num = request.POST['trans_acc_num']
         amount = float(request.POST['amount'])
-        
         # Checking whether the Account numbers exist in out database
         try:
             temp_with_acc = customeraccounts.objects.get(account_num__contains=with_acc_num)
@@ -49,6 +50,10 @@ def transfer(request):
                 temp_trans_acc.balance += amount
                 temp_with_acc.save()
                 temp_trans_acc.save()
+                with_acc_txn = accounttransaction(date=date_, pri_acc_num=temp_with_acc, sec_acc_num=trans_acc_num, amount_debit=amount, curr_bal=temp_with_acc.balance)
+                depo_acc_txn = accounttransaction(date=date_, pri_acc_num=temp_trans_acc, sec_acc_num=with_acc_num, amount_credit=amount, curr_bal=temp_trans_acc.balance)
+                with_acc_txn.save()
+                depo_acc_txn.save()
                 message = f'Rs {amount} has been transferred to account {trans_acc_num}'
                 return render(request, 'customer/transfer.html', {'message': message})
         else:
@@ -79,6 +84,16 @@ def checkbalance(request):
 
 @login_required
 def transactionhistory(request):
+    if request.method == "POST":
+        acc_num = request.POST["acc_num"]
+        try:
+            temp = customeraccounts.objects.get(account_num__contains=acc_num)
+            transaction_table = accounttransaction.objects.filter(pri_acc_num=acc_num)
+            return render(request, 'customer/transactionhistory.html', {'trans_table': transaction_table})
+        except ObjectDoesNotExist:
+            temp = None
+            messages.error(request, f'{acc_num} does not exist')
+            return redirect('t_history')
     return render(request, 'customer/transactionhistory.html')
 
 
@@ -99,6 +114,7 @@ def newcustomer(request):
 
 @login_required
 def newaccount(request):
+    date_ = dt.datetime.now().strftime("%Y-%m-%d %H:%m:%S")
     form = customeraccountsForm()
     if request.method == "POST":
         form = customeraccountsForm(request.POST)
@@ -106,8 +122,12 @@ def newaccount(request):
             cust_name = form.cleaned_data['customer']
             acc_type = form.cleaned_data['account_type']
             acc_num = form.cleaned_data['account_num']
+            acc_bal = form.cleaned_data['balance']
             messages.success(request, f'{acc_type} account number {acc_num} is opened for {cust_name}')
             form.save()
+            acc_num = customeraccounts.objects.get(account_num=acc_num)
+            first_trans_entry = accounttransaction(date=date_, pri_acc_num=acc_num, sec_acc_num='cash', amount_credit=acc_bal, curr_bal=acc_bal)
+            first_trans_entry.save()
             return redirect('acc_open')
     else:
         form = customeraccountsForm()

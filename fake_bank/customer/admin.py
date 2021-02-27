@@ -1,5 +1,5 @@
 from django.contrib import admin
-from customer.models import customers, customeraccounts
+from customer.models import customers, customeraccounts, accounttransaction
 
 # Register your models here.
 
@@ -14,3 +14,4 @@ class customeraccountsAdmin(admin.ModelAdmin):
 
 admin.site.register(customers, customersAdmin)
 admin.site.register(customeraccounts, customeraccountsAdmin)
+admin.site.register(accounttransaction)

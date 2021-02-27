@@ -26,5 +26,19 @@ class customeraccounts(models.Model):
     nominee = models.CharField(max_length=30)
     customer = models.ForeignKey(customers, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.account_num
 
-    
+
+class accounttransaction(models.Model):
+    date = models.DateTimeField()
+    pri_acc_num = models.ForeignKey(customeraccounts, on_delete=models.CASCADE)
+    sec_acc_num = models.CharField(max_length=5)
+    amount_debit = models.FloatField(default=0)
+    amount_credit = models.FloatField(default=0)
+    curr_bal = models.FloatField()
+
+    def __str__(self):
+        return str(self.id)
+
+
